@@ -1,21 +1,20 @@
 {
   "name": "nest4ts",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "Use TypeScript decorators to register express restful service.",
-  "main": "dist/src/main.js",
-  "typings": "dist/src/main.d.ts",
+  "main": "dist/main.js",
   "scripts": {
     "start": "concurrently \"npm run build-w\"  \"node dist/test/app.js\"",
     "build-w": "tsc -w",
     "test": "jest",
-    "release": " tsc && npm run publish"
+    "release": " tsc && npm publish"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/parck/nest4ts.git"
   },
   "files": [
-    "dist/src",
+    "dist",
     "package.json",
     "tsconfig.json"
   ],

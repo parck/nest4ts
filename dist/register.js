@@ -32,7 +32,7 @@ function extractParameters(req, res, params) {
  * start(express, [servies])
  * ```
  */
-function start(port, classes) {
+function start(config, classes) {
     let router = express.Router();
     let app = express();
     classes.forEach(clazz => {
@@ -78,11 +78,10 @@ function start(port, classes) {
         params.push(router);
         app.use.apply(app, params);
     });
-    app.use(express.static("views"));
-    app.get('/', function (req, res) {
-        return res.sendfile(__dirname + "/example/views/index.html");
-    });
-    app.listen(port, function () {
+    app.use(express.static(config.root));
+    if (config.listener)
+        config.listener(app);
+    app.listen(config.port, function () {
         let host = this.address().address;
         let port = this.address().port;
         console.log('Example app listening at http://%s:%s', host, port);

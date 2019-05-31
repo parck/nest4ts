@@ -3,6 +3,12 @@ import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
 import {getClazz, Param} from './decorator'
 
+export type Config = {
+    port: number,
+    root: string,
+    listener: Function,
+}
+
 /**
  * Extract paramters from request.
  */
@@ -34,7 +40,7 @@ function extractParameters(req, res, params: Param[]) {
  * start(express, [servies])
  * ```
  */
-export function start(port, classes: any[]) {
+export function start(config: Config, classes: any[]) {
 
     let router = express.Router();
     let app = express();
@@ -86,13 +92,11 @@ export function start(port, classes: any[]) {
         app.use.apply(app, params);
     });
 
-    app.use(express.static("views"));
+    app.use(express.static(config.root));
 
-    app.get('/', function (req, res) {
-        return res.sendfile(__dirname + "/example/views/index.html");
-    });
+    if (config.listener) config.listener(app);
 
-    app.listen(port, function () {
+    app.listen(config.port, function () {
         let host = this.address().address;
         let port = this.address().port;
 
